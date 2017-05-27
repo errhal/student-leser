@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="w1">Wydział Matematyki i Nauk Informacyjnych</string>
+    <string name="k11">Informatyka</string>
+    <string name="s111">Semestr 1</string>
+    <string name="p1111">przedmiot 1</string>
+
+    <string name="k12">Matematyka</string>
+    <string name="k13">Computer Science</string>
+
+    <string name="w2">Wydział Administracji i Nauk Społecznych</string>
+
+
+</resources>

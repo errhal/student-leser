@@ -21,6 +21,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This sample shows you how to use ActionBarCompat with a customized theme. It utilizes a split
@@ -40,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sample_main);
+//        setContentView(R.layout.sample_main);
 
         // Set the Action Bar to use tabs for navigation
         ActionBar ab = getSupportActionBar();
@@ -50,6 +58,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         ab.addTab(ab.newTab().setText("Przedmioty").setTabListener(this));
         ab.addTab(ab.newTab().setText("Zaliczenia").setTabListener(this));
         ab.addTab(ab.newTab().setText("Historia").setTabListener(this));
+
+        List<Button> buttons = Collections.synchronizedList(new ArrayList<Button>());
+        for(int i = 0 ; i<4;i++) {
+            buttons.add(new Button(this));
+        }
+
+        buttons.get(0).setText("Programowanie");
+        buttons.get(0).setY(150);
+        buttons.get(1).setText("Sieci komputerowe");
+        buttons.get(1).setY(300);
+        buttons.get(2).setText("Wychowanie fizyczne");
+        buttons.get(2).setY(450);
+        buttons.get(3).setText("Analiza danych");
+        buttons.get(3).setY(600);
+        addContentView(buttons.get(0), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+        addContentView(buttons.get(1), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+        addContentView(buttons.get(2), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+        addContentView(buttons.get(3), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+//        setContentView(button);
     }
 
     @Override

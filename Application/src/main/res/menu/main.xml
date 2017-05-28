@@ -37,7 +37,7 @@
 
     <item
         android:id="@+id/menu_location"
-        android:icon="@drawable/ic_action_location"
+        android:icon="@drawable/aparat"
         android:title="@string/menu_location"
         support:showAsAction="ifRoom"/>
 

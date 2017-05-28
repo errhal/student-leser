@@ -147,35 +147,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         addContentView(buttons.get(2), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
         addContentView(buttons.get(3), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
 
-        buttons.get(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //SQLiteDb sql = new SQLiteDb(view.getContext());
-                SQLiteDbHelper sqlhlp = new SQLiteDbHelper(view.getContext());
 
-                //Lub
-                // List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
-                //        view.getContext().getString(R.string.w1),
-                //        view.getContext().getString(R.string.k12),
-                //        view.getContext().getString(R.string.s111));
-                List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
-                        "Wydział Matematyki i Nauk Informacyjnych",
-                        "Informatyka",
-                        "Semestr 1");
-
-                AlertDialog aa = new AlertDialog.Builder(view.getContext()).create();
-
-                String ssd, wynik_ostateczny = "";
-                for (int i = 0; i < lista.size(); i++) {
-                    ssd = lista.get(i).przedmiot + " " + lista.get(i).ects + "\n";
-                    wynik_ostateczny += ssd;
-                }
-                aa.setMessage(wynik_ostateczny);
-                aa.setTitle("baza");
-                aa.show();
-
-            }
-        });
 
 
     }
@@ -194,7 +166,39 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
             button.setText("Option " + i);
             addContentView(button, new LinearLayout.LayoutParams(540, 200));
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //SQLiteDb sql = new SQLiteDb(view.getContext());
+                    SQLiteDbHelper sqlhlp = new SQLiteDbHelper(view.getContext());
+
+                    //Lub
+                    // List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
+                    //        view.getContext().getString(R.string.w1),
+                    //        view.getContext().getString(R.string.k12),
+                    //        view.getContext().getString(R.string.s111));
+                    List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
+                            "Wydział Matematyki i Nauk Informacyjnych",
+                            "Informatyka",
+                            "Semestr 1");
+
+                    AlertDialog aa = new AlertDialog.Builder(view.getContext()).create();
+
+                    String ssd, wynik_ostateczny = "";
+                    for (int i = 0; i < lista.size(); i++) {
+                        ssd = lista.get(i).przedmiot + " " + lista.get(i).ects + "\n";
+                        wynik_ostateczny += ssd;
+                    }
+                    aa.setMessage(wynik_ostateczny);
+                    aa.setTitle("baza");
+                    aa.show();
+
+                }
+            });
         }
+
+
+
         /*  //Obliczanie optymalnych przedmiotów do zaliczenia - sypie się
         SQLiteDbHelper sqlhlp = new SQLiteDbHelper(this);
         List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(

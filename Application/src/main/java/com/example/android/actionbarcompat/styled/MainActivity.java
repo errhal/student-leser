@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * This sample shows you how to use ActionBarCompat with a customized theme. It utilizes a split
@@ -235,15 +236,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private void showHistory() {
         setContentView(new View(this));
-        Map<String, List<com.example.android.entities.Activity>> activities = new LinkedHashMap<>();
-        Activity a1 = new Activity();
-        a1.setId(1);
-        a1.setName("Informatyka");
-        a1.setPassed(true);
+        Map<String, List<SQLiteDbHelper.Wyniki>> activities = new LinkedHashMap<>();
+        activities.put("Semestr 1", (new SQLiteDbHelper(this)).queryDb("Wydział Matematyki i Nauk Informacyjnych",
+                "Informatyka",
+                "Semestr 1"));
 
-        activities.put("Semestr 1", Arrays.asList(a1));
-        activities.put("Semestr 2", new ArrayList<com.example.android.entities.Activity>());
-        activities.put("Semestr 3", new ArrayList<com.example.android.entities.Activity>());
+        activities.put("Semestr 2", (new SQLiteDbHelper(this)).queryDb("Wydział Matematyki i Nauk Informacyjnych",
+                "Informatyka",
+                "Semestr 2"));
+
+        activities.put("Semestr 3", (new SQLiteDbHelper(this)).queryDb("Wydział Matematyki i Nauk Informacyjnych",
+                "Informatyka",
+                "Semestr 3"));
 
         int index = 0;
         for (String s : activities.keySet()) {
@@ -254,10 +258,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             textView.setX(400);
             textView.setY((++index) * 120);
             addContentView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 120));
-            for (Activity a : activities.get(s)) {
+            for (SQLiteDbHelper.Wyniki a : activities.get(s)) {
                 Button button = new Button(this);
-                button.setText(a.getName());
-                if (!a.isPassed()) button.setBackgroundColor(Color.RED);
+                button.setText(a.przedmiot);
+                if ((new Random()).nextBoolean()) button.setBackgroundColor(Color.RED);
                 else button.setBackgroundColor(Color.GREEN);
                 button.setY((++index) * 120);
                 addContentView(button, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));

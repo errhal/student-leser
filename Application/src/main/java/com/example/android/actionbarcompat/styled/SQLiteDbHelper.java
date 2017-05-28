@@ -102,7 +102,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         long newRowId = db.insert(Entry.TABLENAME, null, values);
     }
 
-    public List queryDb(String wydzial, String kierunek, String semestr)
+    public List<Wyniki> queryDb(String wydzial, String kierunek, String semestr)
     {
         SQLiteDatabase db = getReadableDatabase();
 

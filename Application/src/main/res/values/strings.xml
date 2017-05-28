@@ -22,5 +22,5 @@
     <string name="main_description">This is a basic Activity showing an Action Bar which has been
         styled.
     </string>
-
+    <string name="passed">Zaliczony: </string>
 </resources>

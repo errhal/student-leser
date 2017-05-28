@@ -17,18 +17,25 @@
 package com.example.android.actionbarcompat.styled;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.view.menu.MenuView;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.entities.Activity;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +63,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.sample_main);
-
         // Set the Action Bar to use tabs for navigation
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -66,6 +72,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         ab.addTab(ab.newTab().setText("Zaliczenia").setTabListener(this));
         ab.addTab(ab.newTab().setText("Historia").setTabListener(this));
         showButtons();
+
+        //this.addContentView();
 //        setContentView(button);
 
         SQLiteDb sql = new SQLiteDb(this);
@@ -77,6 +85,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu from menu resource (res/menu/main)
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                showGallery(item);
+                return true;
+            }
+        });
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -109,7 +124,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private void showButtons() {
         final List<Button> buttons = Collections.synchronizedList(new ArrayList<Button>());
         for (int i = 0; i < 4; i++) {
-            buttons.add(new Button(this));
+            Button button = new Button(this);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showActivityDetails(view);
+                }
+            });
+            buttons.add(button);
         }
 
         buttons.get(0).setText("Programowanie");
@@ -144,8 +166,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 AlertDialog aa = new AlertDialog.Builder(view.getContext()).create();
 
                 String ssd, wynik_ostateczny = "";
-                for (int i=0; i<lista.size(); i++)
-                {
+                for (int i = 0; i < lista.size(); i++) {
                     ssd = lista.get(i).przedmiot + " " + lista.get(i).ects + "\n";
                     wynik_ostateczny += ssd;
                 }
@@ -155,7 +176,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             }
         });
-
 
 
     }
@@ -211,21 +231,89 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         activities.put("Semestr 3", new ArrayList<com.example.android.entities.Activity>());
 
         int index = 0;
-        for(String s : activities.keySet()) {
-            if(activities.get(s).isEmpty()) continue;
+        for (String s : activities.keySet()) {
+            if (activities.get(s).isEmpty()) continue;
             TextView textView = new TextView(this);
             textView.setText(s);
             textView.setTextSize(24);
             textView.setX(400);
-            textView.setY((++index)*120);
+            textView.setY((++index) * 120);
             addContentView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 120));
-            for(Activity a : activities.get(s)) {
+            for (Activity a : activities.get(s)) {
                 Button button = new Button(this);
                 button.setText(a.getName());
+                if (!a.isPassed()) button.setBackgroundColor(Color.RED);
+                else button.setBackgroundColor(Color.GREEN);
                 button.setY((++index) * 120);
                 addContentView(button, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
             }
         }
     }
 
+
+    public void showActivityDetails(View view) {
+
+        LinearLayout l1 = new LinearLayout(this);
+        LinearLayout l2 = new LinearLayout(this);
+        LinearLayout l3 = new LinearLayout(this);
+        LinearLayout l4 = new LinearLayout(this);
+        l1.setGravity(Gravity.CENTER_HORIZONTAL);
+        l3.setY(250);
+        l4.setGravity(Gravity.CENTER_HORIZONTAL);
+        l4.setY(400);
+
+        TextView t1 = prepareHeader();
+        t1.setText(((TextView)view).getText());
+
+        TextView t2 = new TextView(this);
+        t2.setText("ECTS: " + 5);
+        t2.setTextSize(18);
+        t2.setY(150);
+
+        TextView t3 = prepareHeader();
+        t3.setText("Notatki:");
+
+        l1.addView(t1);
+        l2.addView(t2);
+
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.setHeight(120);
+        checkBox.setText("Zaliczone");
+        l3.addView(checkBox);
+        l4.addView(t3);
+
+
+//        layout.addView(textView);
+//        addContentView(textView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
+//        addContentView(checkBox, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
+
+        //        TextView passed = new TextView(this);
+//        layout.addView(checkBox);
+//        addContentView(checkbox, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        layout.addView(checkbox);
+        setContentView(l1);
+        addContentView(l2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addContentView(l3, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addContentView(l4, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    public void showGallery(MenuItem v) {
+        Intent intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
+    }
+
+    public TextView prepareHeader() {
+        TextView textView = new TextView(this);
+        textView.setTextSize(24);
+        return textView;
+    }
+
+    public LinearLayout createLayout() {
+        LinearLayout layout = new LinearLayout(null);
+        return layout;
+    }
+
+    public void onCheckboxClicked(View view) {
+
+    }
 }

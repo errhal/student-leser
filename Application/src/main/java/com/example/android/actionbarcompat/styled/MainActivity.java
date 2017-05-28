@@ -17,7 +17,6 @@
 package com.example.android.actionbarcompat.styled;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -31,13 +30,10 @@ import android.widget.TextView;
 
 import com.example.android.entities.Activity;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +67,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         ab.addTab(ab.newTab().setText("Historia").setTabListener(this));
         showButtons();
 //        setContentView(button);
+
+        SQLiteDb sql = new SQLiteDb(this);
+        SQLiteDbHelper sqlhlp = new SQLiteDbHelper(this);
+        sql.sqliteDbUpdateOnce(this);
     }
 
     @Override
@@ -128,14 +128,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         buttons.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteTest sql = new SQLiteTest(view.getContext());
+                //SQLiteDb sql = new SQLiteDb(view.getContext());
                 SQLiteDbHelper sqlhlp = new SQLiteDbHelper(view.getContext());
 
-
+                //Lub
+                // List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
+                //        view.getContext().getString(R.string.w1),
+                //        view.getContext().getString(R.string.k12),
+                //        view.getContext().getString(R.string.s111));
                 List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
-                        view.getContext().getString(R.string.w1),
-                        view.getContext().getString(R.string.k11),
-                        view.getContext().getString(R.string.s111));
+                        "Wydział Matematyki i Nauk Informacyjnych",
+                        "Informatyka",
+                        "Semestr 1");
 
                 AlertDialog aa = new AlertDialog.Builder(view.getContext()).create();
 

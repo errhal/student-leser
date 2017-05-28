@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             } else {
                 button.setY((i / 2) * 200);
             }
-            button.setText("Option " + i);
+            button.setText("Opcja nr " + (i+1));
             addContentView(button, new LinearLayout.LayoutParams(540, 200));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

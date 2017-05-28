@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.lang.Object;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Czarek on 2017-05-28.
@@ -59,7 +60,7 @@ public class CombinationGenerator
                 String d = "";
                 for (int j = 0; j < liczbaEl; j++) {
                     if ((int) a.charAt(j) == '1') {
-                        d += lista.get(j).przedmiot + ",";
+                        d += lista.get(j).przedmiot + ", ";
                     }
                 }
                 wynik.add(d);
@@ -80,13 +81,13 @@ public class CombinationGenerator
             }
             iloscprzecinkow[i]=count;
         }
-        Map wyn = new HashMap();
+        Map wyn = new TreeMap();
         for(int i=0;i<T.size();++i) {
         wyn.put(iloscprzecinkow[i],T.get(i));
         }
         String OstatecznyWynik="";
         for(int i=0;i<T.size();++i){
-            OstatecznyWynik+=wyn.get(i)+"\n";
+            if(wyn.get(i) != null) OstatecznyWynik+=wyn.get(i)+"\n";
         }
         return OstatecznyWynik;
     }

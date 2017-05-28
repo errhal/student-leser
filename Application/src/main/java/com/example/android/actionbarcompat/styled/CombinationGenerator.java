@@ -69,7 +69,7 @@ public class CombinationGenerator
         }
         return wynik;
     }
-    public String NapisKoncowy(List<String> T){
+    public String napisKoncowy(List<String> T){
         int iloscprzecinkow[] = new int[T.size()];
         for(int i=0;i<T.size();++i){
             int count=0;

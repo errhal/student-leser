@@ -3,7 +3,10 @@ package com.example.android.actionbarcompat.styled;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.lang.Object;
+import java.util.Map;
 
 /**
  * Created by Czarek on 2017-05-28.
@@ -45,7 +48,7 @@ public class CombinationGenerator
             //sprawdza czy dany ciag generuje wystarczajaca ilosc ects
             for(int j=0;j<b;++j) {
                 if((int)a.charAt(j) == '1')
-                    pomocniczailoscects-=lista.get(i).ects;
+                    pomocniczailoscects-=lista.get(j).ects;
             }
             if(pomocniczailoscects<=0) {
                 int c = liczbaEl - b;   //wymagana ilosc dopisanych zer
@@ -56,7 +59,7 @@ public class CombinationGenerator
                 String d = "";
                 for (int j = 0; j < liczbaEl; j++) {
                     if ((int) a.charAt(j) == '1') {
-                        d += lista.get(j).przedmiot + " ";
+                        d += lista.get(j).przedmiot + ",";
                     }
                 }
                 wynik.add(d);
@@ -65,5 +68,26 @@ public class CombinationGenerator
             else{continue;}
         }
         return wynik;
+    }
+    public String NapisKoncowy(List<String> T){
+        int iloscprzecinkow[] = new int[T.size()];
+        for(int i=0;i<T.size();++i){
+            int count=0;
+            for(int j=0;j<T.get(i).length();++j){
+                if(T.get(i).charAt(j)==','){
+                    count++;
+                }
+            }
+            iloscprzecinkow[i]=count;
+        }
+        Map wyn = new HashMap();
+        for(int i=0;i<T.size();++i) {
+        wyn.put(iloscprzecinkow[i],T.get(i));
+        }
+        String OstatecznyWynik="";
+        for(int i=0;i<T.size();++i){
+            OstatecznyWynik+=wyn.get(i)+"\n";
+        }
+        return OstatecznyWynik;
     }
 }

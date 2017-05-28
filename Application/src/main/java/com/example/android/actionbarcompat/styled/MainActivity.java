@@ -16,6 +16,8 @@
 
 package com.example.android.actionbarcompat.styled;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.android.entities.Activity;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -104,7 +107,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     private void showButtons() {
-        List<Button> buttons = Collections.synchronizedList(new ArrayList<Button>());
+        final List<Button> buttons = Collections.synchronizedList(new ArrayList<Button>());
         for (int i = 0; i < 4; i++) {
             buttons.add(new Button(this));
         }
@@ -121,11 +124,42 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         addContentView(buttons.get(1), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
         addContentView(buttons.get(2), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
         addContentView(buttons.get(3), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+
+        buttons.get(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteTest sql = new SQLiteTest(view.getContext());
+                SQLiteDbHelper sqlhlp = new SQLiteDbHelper(view.getContext());
+
+
+                List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
+                        view.getContext().getString(R.string.w1),
+                        view.getContext().getString(R.string.k11),
+                        view.getContext().getString(R.string.s111));
+
+                AlertDialog aa = new AlertDialog.Builder(view.getContext()).create();
+
+                String ssd, wynik_ostateczny = "";
+                for (int i=0; i<lista.size(); i++)
+                {
+                    ssd = lista.get(i).przedmiot + " " + lista.get(i).ects + "\n";
+                    wynik_ostateczny += ssd;
+                }
+                aa.setMessage(wynik_ostateczny);
+                aa.setTitle("baza");
+                aa.show();
+
+            }
+        });
+
+
+
     }
 
 
     private void showOptions() {
-        setContentView(new View(this));
+        View view = new View(this);
+        setContentView(view);
         for (int i = 0; i < 10; i++) {
             Button button = new Button(this);
             if (i % 2 == 1) {
@@ -137,6 +171,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             button.setText("Option " + i);
             addContentView(button, new LinearLayout.LayoutParams(540, 200));
         }
+        /*  //Obliczanie optymalnych przedmiotów do zaliczenia - sypie się
+        SQLiteDbHelper sqlhlp = new SQLiteDbHelper(this);
+        List<SQLiteDbHelper.Wyniki> lista = sqlhlp.queryDb(
+                view.getContext().getString(R.string.w1),
+                view.getContext().getString(R.string.k11),
+                view.getContext().getString(R.string.s111));
+        CombinationGenerator kombi = new CombinationGenerator();
+        List<String> listaZaliczenia = kombi.kombinacje(lista, 4);
+
+        for (int i = 0; i < listaZaliczenia.size(); i++) {
+            Button button = new Button(this);
+            if (i % 2 == 1) {
+                button.setX(540);
+                button.setY((i / 2) * 200);
+            } else {
+                button.setY((i / 2) * 200);
+            }
+            button.setText(listaZaliczenia.get(i));
+            addContentView(button, new LinearLayout.LayoutParams(540, 200));
+        }
+        */
     }
 
     private void showHistory() {
@@ -168,4 +223,5 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         }
     }
+
 }

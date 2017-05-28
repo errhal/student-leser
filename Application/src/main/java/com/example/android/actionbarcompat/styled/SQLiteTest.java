@@ -16,7 +16,28 @@ public class SQLiteTest
         String semestr = context.getString(R.string.s111);
         String przedmiot = context.getString(R.string.p1111);
         int ects = 4;
-        sql.addToDb(wydzial, kierunek, semestr, przedmiot, ects);
+        int zaliczone = 0;
+
+        sql.addToDb(wydzial, kierunek, semestr, przedmiot, ects, zaliczone);
+
+        wydzial = context.getString(R.string.w1);
+        kierunek = context.getString(R.string.k12);
+        semestr = context.getString(R.string.s111);
+        przedmiot = context.getString(R.string.p1111);
+        ects = 5;
+        zaliczone = 1;
+
+        sql.addToDb(wydzial, kierunek, semestr, przedmiot, ects, zaliczone);
+
+        wydzial = context.getString(R.string.w1);
+        kierunek = context.getString(R.string.k13);
+        semestr = context.getString(R.string.s111);
+        przedmiot = context.getString(R.string.p1111);
+        ects = 3;
+        zaliczone = 0;
+
+        sql.addToDb(wydzial, kierunek, semestr, przedmiot, ects, zaliczone);
+
     }
 
 
